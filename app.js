@@ -17,7 +17,7 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, PATCH, DELETE"
   );
-  res.setHeader("Access-Control-Allow-Header", "Content-Type, Authorization"); // 클라이언트가 요청에 설정할 수 있는 헤더를 지정
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization"); // 클라이언트가 요청에 설정할 수 있는 헤더를 지정
   next();
 });
 
