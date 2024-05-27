@@ -1,13 +1,36 @@
+const { validationResult } = require("express-validator");
+
 exports.getPosts = (req, res, next) => {
   res.status(200).json({
     posts: [
-      { title: "첫 번째 포스팅", content: "REST API 생성" },
-      { title: "두 번째 포스팅", content: "REST API2 생성" },
+      {
+        _id: "1",
+        title: "첫 번째 포스팅",
+        content: "REST API 생성",
+        imageUrl: "images/typescript.jpeg",
+        creator: {
+          name: "김청수",
+        },
+        createdAt: new Date(),
+      },
     ],
   });
 };
 
 exports.writePost = (req, res, next) => {
+  const errors = validationResult(req);
+
+  console.log("errors : ", errors);
+
+  if (!errors.isEmpty()) {
+    // 422는 유효성 검사 실패 상태 코드임
+    return res.status(422).json({
+      message:
+        "유효성 검사를 통과하지 못했습니다. 올바른 데이터 값을 넣어주세요.",
+      errors: errors.array(),
+    });
+  }
+
   const title = req.body.title;
   const content = req.body.content;
 
@@ -16,6 +39,12 @@ exports.writePost = (req, res, next) => {
   // 이유 : 상태코드 201은 리소스를 생성했음을 나타낸다.
   res.status(201).json({
     message: "게시글을 작성하였습니다.",
-    post: { id: new Date().toISOString(), title, content },
+    post: {
+      _id: new Date().toISOString(),
+      title,
+      content,
+      creator: { name: "닝닝" },
+      createdAt: new Date(),
+    },
   });
 };
