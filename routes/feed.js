@@ -16,4 +16,7 @@ router.post(
   feedController.writePost
 );
 
+// 단일 게시물 불러오기
+router.get("/post/:postId", feedController.getPost);
+
 module.exports = router;
